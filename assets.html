@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assets | MaintainIQ</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar"></aside>
+    <main class="main-content">
+      <header class="topbar">
+        <div class="page-heading">
+          <button id="menu-toggle" class="menu-toggle" type="button">☰</button>
+          <h1 id="page-title">Asset Management</h1>
+          <p id="page-subtitle"></p>
+        </div>
+        <div class="topbar-actions">
+          <button id="add-asset-btn" class="btn-primary" type="button">+ Create Asset</button>
+        </div>
+      </header>
+
+      <section class="panel glass-card">
+        <div class="filters">
+          <input type="text" id="asset-search" class="input" placeholder="Search assets...">
+          <select id="category-filter" class="select">
+            <option value="">All Categories</option>
+            <option>HVAC</option>
+            <option>Electrical</option>
+            <option>Plumbing</option>
+            <option>IT Equipment</option>
+            <option>Machinery</option>
+            <option>Other</option>
+          </select>
+          <select id="status-filter" class="select">
+            <option value="">All Statuses</option>
+            <option>Active</option>
+            <option>Under Maintenance</option>
+            <option>Issue Reported</option>
+            <option>Retired</option>
+          </select>
+          <button id="bulk-print-btn" class="btn-secondary" type="button">🖨 Bulk Print Labels</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="select-all"></th>
+                <th>Name</th><th>Code</th><th>Category</th><th>Location</th><th>Status</th><th>Technician</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="assets-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div id="bulkPrintArea"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script type="module">
+    import { initAssetsPage } from './js/asset.js';
+    initAssetsPage();
+  </script>
+</body>
+</html>

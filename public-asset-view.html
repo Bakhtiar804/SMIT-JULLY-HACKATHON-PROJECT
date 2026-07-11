@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asset Info | MaintainIQ</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div class="public-page">
+    <div class="public-card glass-card">
+      <div class="public-header">
+        <h1>⚙️ MaintainIQ</h1>
+        <p>Public Asset Information</p>
+      </div>
+
+      <div id="loading" class="loading-state"><div class="spinner"></div><p>Loading asset...</p></div>
+      <div id="content" class="hidden" style="display:none;">
+        <h2 id="asset-name" style="margin-bottom:8px;">—</h2>
+        <div class="info-grid">
+          <div class="info-item"><label>Asset Code</label><strong id="asset-code">—</strong></div>
+          <div class="info-item"><label>Category</label><strong id="asset-category">—</strong></div>
+          <div class="info-item"><label>Location</label><strong id="asset-location">—</strong></div>
+          <div class="info-item"><label>Status</label><span id="asset-status" class="status-pill">—</span></div>
+          <div class="info-item"><label>Last Service</label><strong id="last-service">—</strong></div>
+          <div class="info-item"><label>Next Service</label><strong id="next-service">—</strong></div>
+        </div>
+
+        <h3 style="margin:20px 0 12px;font-size:16px;">Recent Activity</h3>
+        <div id="activity-list"></div>
+
+        <a id="report-issue-btn" class="btn-primary report-btn" href="#">Report Issue</a>
+      </div>
+      <div id="error" class="error-state hidden" style="display:none;"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { loadPublicAsset, renderPublicAsset } from './js/publicAsset.js';
+
+    (async () => {
+      try {
+        const { asset, assetId } = await loadPublicAsset();
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+        renderPublicAsset(asset, assetId);
+      } catch (err) {
+        document.getElementById('loading').style.display = 'none';
+        const errEl = document.getElementById('error');
+        errEl.style.display = 'block';
+        errEl.innerHTML = `<span class="empty-icon">⚠️</span><p>${err.message}</p>`;
+      }
+    })();
+  </script>
+</body>
+</html>

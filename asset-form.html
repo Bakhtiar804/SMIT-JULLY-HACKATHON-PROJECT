@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asset Form | MaintainIQ</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar"></aside>
+    <main class="main-content">
+      <header class="topbar">
+        <div class="page-heading">
+          <button id="menu-toggle" class="menu-toggle" type="button">☰</button>
+          <h1 id="page-title">Create Asset</h1>
+          <p id="page-subtitle"></p>
+        </div>
+      </header>
+
+      <section class="panel glass-card" style="max-width:800px;">
+        <form id="asset-form" class="form-grid">
+          <div class="form-group">
+            <label for="asset-name">Asset Name</label>
+            <input id="asset-name" class="input" required placeholder="e.g. HVAC Chiller Unit">
+          </div>
+          <div class="form-group">
+            <label for="asset-code">Asset Code (Unique)</label>
+            <input id="asset-code" class="input" required placeholder="e.g. MIQ-HVAC-001" style="text-transform:uppercase;">
+          </div>
+          <div class="form-group">
+            <label for="asset-category">Category</label>
+            <select id="asset-category" class="select" required>
+              <option value="">Select category</option>
+              <option>HVAC</option>
+              <option>Electrical</option>
+              <option>Plumbing</option>
+              <option>IT Equipment</option>
+              <option>Machinery</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="asset-location">Location</label>
+            <input id="asset-location" class="input" required placeholder="e.g. Basement Plant Room">
+          </div>
+          <div class="form-group">
+            <label for="asset-status">Current Status</label>
+            <select id="asset-status" class="select"></select>
+          </div>
+          <div class="form-group">
+            <label for="asset-technician">Assigned Technician</label>
+            <input id="asset-technician" class="input" placeholder="Optional">
+          </div>
+          <div class="form-group">
+            <label for="last-service">Last Service Date</label>
+            <input id="last-service" type="date" class="input">
+          </div>
+          <div class="form-group">
+            <label for="next-service">Next Service Date</label>
+            <input id="next-service" type="date" class="input">
+          </div>
+          <div class="form-group full">
+            <button type="submit" class="btn-primary">Save Asset & Generate QR</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+  <script type="module">
+    import { initAssetFormPage } from './js/asset.js';
+    initAssetFormPage();
+  </script>
+</body>
+</html>

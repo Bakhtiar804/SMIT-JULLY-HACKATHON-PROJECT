@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaintainIQ | Asset QR Code Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="stylesheet" href="asset.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <h2><i class="fa-solid fa-gears"></i> MaintainIQ Asset Manager</h2>
+            <p>Create assets, generate secure QR codes, and print labels instantly.</p>
+        </header>
+
+        <div class="main-grid">
+            <div class="card">
+                <h3><i class="fa-solid fa-plus-circle"></i> Create New Asset</h3>
+                <form id="assetForm">
+                    <div class="form-group">
+                        <label>Asset Name</label>
+                        <input type="text" id="assetName" placeholder="e.g., HVAC Chiller Unit" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Asset Code / Serial</label>
+                        <input type="text" id="assetCode" placeholder="e.g., MIQ-HVAC-001" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" id="assetLocation" placeholder="e.g., Basement Plant Room" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="assetStatus">
+                            <option value="Active">Active</option>
+                            <option value="Retired">Retired</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-qrcode"></i> Generate Asset & QR</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-header-actions">
+                    <h3><i class="fa-solid fa-list"></i> Assets Registry</h3>
+                    <button id="bulkPrintBtn" class="btn btn-secondary btn-small"><i class="fa-solid fa-print"></i> Bulk Print Selected</button>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="selectAll"></th>
+                                <th>Asset Info</th>
+                                <th>Code</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="assetTableBody">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="detailSection" class="card detail-card hidden">
+            <div class="detail-header">
+                <h3><i class="fa-solid fa-circle-info"></i> Asset Details & Print Label Preview</h3>
+                <button onclick="closeDetails()" class="btn-close">&times;</button>
+            </div>
+            
+            <div id="notFoundState" class="not-found hidden">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <p>Asset Identifier Invalid or Not Found!</p>
+            </div>
+
+            <div id="detailContent" class="detail-grid">
+                <div class="print-label" id="printableLabel">
+                    <div class="label-org">MaintainIQ Infrastructure</div>
+                    <div class="label-main">
+                        <div class="label-info">
+                            <h4 id="lblTitle">Asset Name</h4>
+                            <p><strong>Code:</strong> <span id="lblCode">---</span></p>
+                            <p><strong>Loc:</strong> <span id="lblLocation">---</span></p>
+                            <div id="lblStatusBadge" class="status-tag">Active</div>
+                        </div>
+                        <div class="label-qr-box">
+                            <div id="labelQr"></div> </div>
+                    </div>
+                    <div class="label-footer">Instructions: Scan QR code via mobile to view public verification page.</div>
+                </div>
+
+                <div class="action-panel">
+                    <h4>Actions</h4>
+                    <button onclick="downloadQR()" class="btn btn-secondary"><i class="fa-solid fa-download"></i> Download QR Code Image</button>
+                    <button onclick="copyPublicLink()" class="btn btn-secondary"><i class="fa-solid fa-copy"></i> Copy Public Safe URL</button>
+                    <button onclick="openPublicPage()" class="btn btn-secondary"><i class="fa-solid fa-external-link"></i> Open Public Asset Page</button>
+                    <button onclick="printSingleLabel()" class="btn btn-primary"><i class="fa-solid fa-print"></i> Print This Label</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="bulkPrintArea" class="print-only"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="asset.js"></script>
+</body>
+</html>

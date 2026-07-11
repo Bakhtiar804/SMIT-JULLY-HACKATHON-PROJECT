@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technician Dashboard | MaintainIQ</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar"></aside>
+    <main class="main-content">
+      <header class="topbar">
+        <div class="page-heading">
+          <button id="menu-toggle" class="menu-toggle" type="button">☰</button>
+          <h1 id="page-title">Technician Workspace</h1>
+          <p id="page-subtitle"></p>
+        </div>
+        <div class="topbar-actions">
+          <div class="notif-wrap" id="notif-wrap">
+            <button class="notif-btn" type="button" onclick="this.parentElement.classList.toggle('open')">🔔 <span id="notif-badge">0</span></button>
+            <div class="notif-dropdown glass-card" id="notif-list"></div>
+          </div>
+        </div>
+      </header>
+
+      <section class="panel glass-card">
+        <div class="panel-header">
+          <h2>My Assigned Tasks</h2>
+          <a href="complaints.html" class="btn-secondary">All Complaints</a>
+        </div>
+        <div id="tech-tasks">
+          <div class="loading-state"><div class="spinner"></div><p>Loading tasks...</p></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module">
+    import { initTechnicianDashboard } from './js/admin.js';
+    initTechnicianDashboard();
+  </script>
+</body>
+</html>

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaintainIQ - Executive Admin Console</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        /* --- CORE SYSTEM VARIABLES (#009688 THEME) --- */
+        :root {
+            --primary: #009688;
+            --primary-hover: #00796B;
+            --primary-light: #E0F2F1;
+            --text-main: #1E293B;
+            --text-secondary: #64748B;
+            --bg-base: #F4F7F6;
+            --bg-surface: #FFFFFF;
+            --border: #E2E8F0;
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            
+            /* Global Alert Matrix */
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+        }
+
+        /* --- BASE RESET & LAYOUT --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- SIDEBAR NAVIGATION PANEL --- */
+        .sidebar {
+            width: 290px;
+            background: #111A1A;
+            color: #FFFFFF;
+            display: flex;
+            flex-direction: column;
+            padding: 40px 24px;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .brand-zone {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 45px;
+            padding-left: 10px;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: var(--radius-md);
+            margin-bottom: 45px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .admin-profile .avatar {
+            width: 46px;
+            height: 46px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            color: white;
+        }
+
+        .nav-group {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            color: #A0AEC0;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary);
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(0, 150, 136, 0.2);
+        }
+
+        /* --- MAIN WORKSPACE CONTROL ENGINE --- */
+        .main-workspace {
+            margin-left: 290px;
+            flex-grow: 1;
+            padding: 50px;
+            max-width: calc(100% - 290px);
+        }
+
+        .header-dashboard {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .welcome-msg h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .welcome-msg p {
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        .pipeline-badge {
+            font-size: 13px;
+            background: var(--bg-surface);
+            padding: 12px 24px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .pipeline-badge .dot {
+            width: 10px;
+            height: 10px;
+            background: var(--success);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--success);
+        }
+
+        /* --- METRICS INTERACTIVE GRID --- */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .metric-card {
+            background: var(--bg-surface);
+            padding: 28px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.01);
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+        }
+
+        .metric-data h4 {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .metric-data p {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .metric-icon-box {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: var(--bg-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        /* --- VIEWS AND DUAL PANELS --- */
+        .view-panel {
+            transition: opacity 0.3s ease;
+        }
+
+        .hidden { display: none !important; }
+
+        .board-card {
+            background: var(--bg-surface);
+            padding: 35px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+            margin-bottom: 35px;
+        }
+
+        .board-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .board-title i {
+            color: var(--primary);
+        }
+
+        /* --- TWO COLUMN HUB SPLIT --- */
+        .hub-split-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 35px;
+            align-items: start;
+        }
+
+        @media(max-width: 1150px) {
+            .hub-split-grid { grid-template-columns: 1fr; }
+        }
+
+        /* --- FORMS AND INPUT ELEMENTS --- */
+        .control-bar {
+            margin-bottom: 28px;
+        }
+
+        .input-element {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            outline: none;
+            background: var(--bg-base);
+            transition: all 0.25s;
+        }
+
+        .input-element:focus {
+            border-color: var(--primary);
+            background: var(--bg-surface);
+            box-shadow: 0 0 0 4px rgba(0, 150, 136, 0.15);
+        }
+
+        .form-grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .field-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        /* --- TABLES MATRIX --- */
+        .table-scroller {
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            margin-top: 15px;
+        }
+
+        .table-core {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 15px;
+        }
+
+        .table-core th, .table-core td {
+            padding: 18px 22px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .table-core th {
+            background: #F8FAFC;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .table-core tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table-core tbody tr:hover {
+            background-color: #F8FAFC;
+        }
+
+        /* --- GLOBAL ACTIONS AND BUTTONS --- */
+        .btn-prime {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 26px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-prime:hover { 
+            background: var(--primary-hover);
+            box-shadow: 0 4px 12px rgba(0, 150, 136, 0.25);
+        }
+
+        .btn-sec {
+            background: var(--bg-base);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-sec:hover { background: #E2E8F0; }
+
+        .btn-small { padding: 8px 14px; font-size: 13px; }
+        .btn-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-secondary); }
+
+        /* --- SYSTEM DYNAMIC TAGS --- */
+        .status-tag {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .status-Active { background: var(--primary-light); color: var(--primary-hover); }
+        .status-Retired { background: #FEE2E2; color: var(--danger); }
+        .status-Faulty { background: #FFF5F5; color: var(--danger); }
+        .status-Inspection { background: #FFFAF0; color: var(--warning); }
+
+        /* --- HIGH FIDELITY LABELS (PRINT PREVIEW) --- */
+        .detail-card {
+            animation: slideUp 0.3s ease;
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 16px;
+        }
+
+        .print-label {
+            background: #FFFFFF;
+            border: 2px solid #111A1A;
+            padding: 24px;
+            border-radius: 8px;
+            color: #111A1A;
+            max-width: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            margin-bottom: 25px;
+        }
+
+        .label-org {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-bottom: 1px dashed #111A1A;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+            letter-spacing: 1.2px;
+            color: var(--primary);
+        }
+
+        .label-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .label-info h4 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+        .label-info p { font-size: 13px; margin-bottom: 6px; color: #475569;}
+        .label-qr-box {
+            width: 115px;
+            height: 115px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            padding: 8px;
+            border: 1px solid #111A1A;
+            border-radius: 4px;
+        }
+
+        .label-footer {
+            font-size: 11px;
+            margin-top: 16px;
+            border-top: 1px dashed #111A1A;
+            padding-top: 8px;
+            line-height: 1.4;
+            color: #475569;
+        }
+
+        .action-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .action-panel .btn-sec { justify-content: flex-start; }
+
+        .not-found { text-align: center; color: var(--danger); padding: 50px 20px; }
+        .not-found i { font-size: 46px; margin-bottom: 16px; }
+
+        /* --- CORE PRINT ENGINE CONFIGURATION --- */
+        @media print {
+            body * { visibility: hidden; }
+            .print-only, .print-only * { visibility: visible; }
+            .print-only { position: absolute; left: 0; top: 0; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 20px; }
+            .print-label { box-shadow: none; page-break-inside: avoid; border: 2px solid #000; }
+        }
+
+        @keyframes slideUp { 
+            from { opacity: 0; transform: translateY(20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="brand-zone">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>MaintainIQ</span>
+        </div>
+
+        <div class="admin-profile">
+            <div class="avatar">A</div>
+            <div>
+                <h4 style="font-size: 14px; font-weight:600;">Super Admin</h4>
+                <p style="font-size: 12px; color: var(--text-secondary);">Operations Root</p>
+            </div>
+        </div>
+
+        <ul class="nav-group">
+            <li class="nav-link active" id="btnDash"><i class="fa-solid fa-chart-line"></i> Dashboard Hub</li>
+            <li class="nav-link" id="btnReg"><i class="fa-solid fa-plus-minus"></i> Fleet Registration</li>
+            <li class="nav-link" id="btnTickets"><i class="fa-solid fa-ticket"></i> Operations Desk</li>
+        </ul>
+    </div>
+
+    <div class="main-workspace">
+        
+        <div class="header-dashboard">
+            <div class="welcome-msg">
+                <h1>System Command Console</h1>
+                <p>Live infrastructure logs and structural node health indices.</p>
+            </div>
+            <div class="pipeline-badge">
+                <span class="dot"></span> Sec Ops Pipeline Online
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-data"><h4>Total Managed Fleet</h4><p id="mTotal">0</p></div>
+                <div class="metric-icon-box" style="color:var(--primary);"><i class="fa-solid fa-box"></i></div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-data"><h4>Active Fault Tiers</h4><p id="mIssues" style="color:var(--danger)">0</p></div>
+                <div class="metric-icon-box" style="color:var(--danger);"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-data"><h4>Under Inspection</h4><p id="mInspect" style="color:var(--warning)">0</p></div>
+                <div class="metric-icon-box" style="color:var(--warning);"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-data"><h4>Operational Units</h4><p id="mOps" style="color:var(--success)">0</p></div>
+                <div class="metric-icon-box" style="color:var(--success);"><i class="fa-solid fa-circle-check"></i></div>
+            </div>
+        </div>
+
+        <div id="panelDash" class="view-panel">
+            <div class="hub-split-grid">
+                
+                <div class="board-card">
+                    <div class="card-header-actions" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="board-title" style="margin-bottom:0;"><i class="fa-solid fa-layer-group"></i> Assets Inventory Registry</div>
+                        <button id="bulkPrintBtn" class="btn-prime btn-small"><i class="fa-solid fa-print"></i> Bulk Print Labels</button>
+                    </div>
+                    
+                    <div class="control-bar" style="margin-top:25px;">
+                        <input type="text" id="assetSearch" class="input-element" placeholder="Search infrastructure nodes by code or description token...">
+                    </div>
+
+                    <div class="table-scroller">
+                        <table class="table-core">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px;"><input type="checkbox" id="selectAll"></th>
+                                    <th>Asset Node / Info</th>
+                                    <th>Node Code</th>
+                                    <th>Status Matrix</th>
+                                </tr>
+                            </thead>
+                            <tbody id="assetTableBody">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="detailSection" class="board-card detail-card hidden">
+                    <div class="detail-header">
+                        <div class="board-title" style="margin-bottom:0;"><i class="fa-solid fa-circle-info"></i> Label Preview</div>
+                        <button onclick="closeDetails()" class="btn-close">&times;</button>
+                    </div>
+                    
+                    <div id="notFoundState" class="not-found hidden">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <p>Asset Identifier Invalid or Not Found!</p>
+                    </div>
+
+                    <div id="detailContent">
+                        <div class="print-label" id="printableLabel">
+                            <div class="label-org">MaintainIQ Infrastructure Label</div>
+                            <div class="label-main">
+                                <div class="label-info">
+                                    <h4 id="lblTitle">Asset Name</h4>
+                                    <p><strong>Code:</strong> <span id="lblCode">---</span></p>
+                                    <p><strong>Loc:</strong> <span id="lblLocation">---</span></p>
+                                    <div id="lblStatusBadge" class="status-tag status-Active" style="margin-top:10px;">Active</div>
+                                </div>
+                                <div class="label-qr-box">
+                                    <div id="labelQr"></div>
+                                </div>
+                            </div>
+                            <div class="label-footer">Instructions: Scan safe secure verification token via operational core smartphone framework.</div>
+                        </div>
+
+                        <div class="action-panel">
+                            <button onclick="printSingleLabel()" class="btn-prime"><i class="fa-solid fa-print"></i> Print Target Label</button>
+                            <button onclick="downloadQR()" class="btn-sec"><i class="fa-solid fa-download"></i> Download QR Vector Image</button>
+                            <button onclick="copyPublicLink()" class="btn-sec"><i class="fa-solid fa-copy"></i> Copy Public Dynamic URL</button>
+                            <button onclick="openPublicPage()" class="btn-sec"><i class="fa-solid fa-external-link"></i> Launch Verification Portal</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="panelReg" class="view-panel hidden">
+            <div class="board-card" style="max-width: 850px;">
+                <div class="board-title"><i class="fa-solid fa-microchip"></i> Provision New Infrastructure Node</div>
+                
+                <form id="newAssetForm" class="form-grid-layout">
+                    <div class="field-group">
+                        <label class="field-label">Asset Common Name</label>
+                        <input type="text" id="assetNameInput" class="input-element" placeholder="e.g. HVAC Chiller Unit" required>
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Unique Identification Code</label>
+                        <input type="text" id="assetCodeInput" class="input-element" placeholder="e.g. MIQ-HVAC-001" required style="font-family:monospace; text-transform:uppercase;">
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Physical Deployment Location</label>
+                        <input type="text" id="assetLocationInput" class="input-element" placeholder="e.g. Basement Plant Room" required>
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">Initial Structural Lifecycle Status</label>
+                        <select id="assetStatusInput" class="input-element">
+                            <option value="Active">Active Operational Status</option>
+                            <option value="Retired">Decommissioned / Retired</option>
+                        </select>
+                    </div>
+                    <div class="field-group" style="grid-column: span 2; margin-top: 15px;">
+                        <button type="submit" class="btn-prime">Commit Entry Stream & Construct Node</button>
+                    </div>
+                </form>
+
+                <div id="qrDeploymentBox" class="hidden" style="margin-top: 40px; padding-top:30px; border-top:1px solid var(--border); text-align: center;">
+                    <h4 style="margin-bottom: 20px; font-size:15px; font-weight:600;"><i class="fa-solid fa-qrcode"></i> Target QR Node Label Provisioned</h4>
+                    <div id="qrcodeBox" style="display: inline-block; padding: 16px; background: white; border-radius:12px; border: 1px solid var(--border);"></div>
+                    <p style="margin-top: 16px; font-size: 14px; color: var(--text-secondary);">Affix this generated deployment token physically to target hardware.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="panelTickets" class="view-panel hidden">
+            <div class="board-card">
+                <div class="board-title"><i class="fa-solid fa-headset"></i> Incident Management Terminal</div>
+                
+                <div class="table-scroller">
+                    <table class="table-core">
+                        <thead>
+                            <tr>
+                                <th>Target Node</th>
+                                <th>Incident Profile</th>
+                                <th>Urgency Tier</th>
+                                <th>Assigned Specialist</th>
+                                <th>Dispatch Pipeline Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ticketRows">
+                            <tr>
+                                <td><span style="font-family:monospace; font-weight:600;">MIQ-HVAC-001</span></td>
+                                <td>Compressor Pressure Overload Fault</td>
+                                <td><span class="status-tag status-Faulty">CRITICAL</span></td>
+                                <td>Eng. Kamran Khan</td>
+                                <td><button class="btn-sec btn-small">Deploy Response Team</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="bulkPrintArea" class="print-only"></div>
+
+    <script type="module" src="admin.js"></script>
+    <script type="module" src="asset.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+/* --- Core UI Framework & Variables --- */
+:root {
+    --primary: #2563EB;
+    --primary-hover: #1D4ED8;
+    --text: #111827;
+    --text-muted: #64748B;
+    --bg: #F8FAFC;
+    --white: #FFFFFF;
+    --border: #E2E8F0;
+    --radius: 12px;
+    --success: #10B981;
+    --danger: #EF4444;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+body { background-color: var(--bg); color: var(--text); padding: 30px 15px; }
+
+.app-container { max-width: 1200px; margin: 0 auto; }
+header { margin-bottom: 30px; text-align: center; }
+header h2 { color: var(--primary); font-size: 2rem; }
+header p { color: var(--text-muted); }
+
+/* --- Grid & Layout Cards --- */
+.main-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px; margin-bottom: 24px; }
+@media (max-width: 768px) { .main-grid { grid-template-columns: 1fr; } }
+
+.card { background: var(--white); padding: 24px; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+h3 { margin-bottom: 20px; font-size: 1.2rem; color: #1E293B; }
+.card-header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+
+/* --- Form Fields --- */
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 6px; color: #475569; }
+.form-group input, .form-group select { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; outline: none; }
+.form-group input:focus { border-color: var(--primary); }
+
+/* --- Buttons --- */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; font-size: 0.95rem; font-weight: 500; border-radius: 8px; border: none; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+.btn-primary { background: var(--primary); color: var(--white); }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { background: #E2E8F0; }
+.btn-small { padding: 6px 12px; font-size: 0.85rem; }
+.btn-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
+
+/* --- Tables --- */
+.table-wrapper { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; text-align: left; }
+th, td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+th { background: var(--bg); color: #475569; font-weight: 600; }
+.status-tag { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+.status-Active { background: #DCFCE7; color: var(--success); }
+.status-Retired { background: #FEE2E2; color: var(--danger); }
+
+/* --- Details & Asset Label Presentation --- */
+.hidden { display: none !important; }
+.detail-card { margin-top: 24px; animation: fadeIn 0.4s ease; }
+.detail-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; }
+@media (max-width: 650px) { .detail-grid { grid-template-columns: 1fr; } }
+
+/* --- Print-Ready Label Layout Structure --- */
+.print-label { background: #fff; border: 2px solid #000; padding: 16px; width: 100%; max-width: 380px; border-radius: 6px; color: #000; margin: 0 auto; box-shadow: 0 0 10px rgba(0,0,0,0.05); }
+.label-org { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; border-bottom: 1px dashed #000; padding-bottom: 4px; margin-bottom: 8px; letter-spacing: 0.5px; }
+.label-main { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.label-info h4 { font-size: 1.1rem; margin-bottom: 6px; font-weight: 700; }
+.label-info p { font-size: 0.8rem; margin-bottom: 2px; }
+.label-qr-box { width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; background: #fff; padding: 4px; border: 1px solid #000; }
+.label-footer { font-size: 0.6rem; margin-top: 8px; border-top: 1px dashed #000; padding-top: 4px; line-height: 1.2; color: #333; }
+
+.action-panel { display: flex; flex-direction: column; gap: 12px; }
+.not-found { text-align: center; color: var(--danger); padding: 30px; font-size: 1.1rem; font-weight: 500; }
+.not-found i { font-size: 2.5rem; margin-bottom: 10px; }
+
+/* --- CSS Print Engine Settings --- */
+@media print {
+    body * { visibility: hidden; }
+    .print-only, .print-only * { visibility: visible; }
+    .print-only { position: absolute; left: 0; top: 0; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 10px; }
+    .print-label { box-shadow: none; page-break-inside: avoid; }
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }

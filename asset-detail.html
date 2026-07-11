@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asset Details | MaintainIQ</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar"></aside>
+    <main class="main-content">
+      <header class="topbar">
+        <div class="page-heading">
+          <button id="menu-toggle" class="menu-toggle" type="button">☰</button>
+          <h1 id="page-title">Asset Details</h1>
+          <p id="page-subtitle"></p>
+        </div>
+        <div class="topbar-actions">
+          <button id="edit-asset" class="btn-secondary" type="button">Edit Asset</button>
+        </div>
+      </header>
+
+      <div class="grid-2">
+        <section class="panel glass-card">
+          <h2 style="margin-bottom:16px;">Asset Information</h2>
+          <div class="detail-grid">
+            <div><label>Name</label><p id="detail-name">—</p></div>
+            <div><label>Code</label><p id="detail-code">—</p></div>
+            <div><label>Category</label><p id="detail-category">—</p></div>
+            <div><label>Location</label><p id="detail-location">—</p></div>
+            <div><label>Status</label><p><span id="detail-status" class="status-pill">—</span></p></div>
+            <div><label>Technician</label><p id="detail-technician">—</p></div>
+            <div><label>Created</label><p id="detail-created">—</p></div>
+            <div><label>Last Service</label><p id="detail-last-service">—</p></div>
+            <div><label>Next Service</label><p id="detail-next-service">—</p></div>
+          </div>
+        </section>
+
+        <section class="panel glass-card">
+          <h2 style="margin-bottom:16px;">QR Label</h2>
+          <div id="label-container"></div>
+          <div class="label-actions">
+            <button id="download-qr" class="btn-secondary" type="button">Download QR</button>
+            <button id="copy-link" class="btn-secondary" type="button">Copy Link</button>
+            <button id="print-label" class="btn-secondary" type="button">Print Label</button>
+            <button id="open-public" class="btn-primary" type="button">Open Public Page</button>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel glass-card">
+        <h2 style="margin-bottom:16px;">Asset History <small style="color:var(--text-muted);font-weight:400;">(Read-only)</small></h2>
+        <div id="history-list"></div>
+      </section>
+    </main>
+  </div>
+  <div id="bulkPrintArea"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script type="module">
+    import { initAssetDetailPage } from './js/asset.js';
+    initAssetDetailPage();
+  </script>
+</body>
+</html>
