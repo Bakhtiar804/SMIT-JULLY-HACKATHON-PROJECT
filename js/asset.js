@@ -12,7 +12,7 @@ import {
   onSnapshot,
   serverTimestamp
 } from "./firebaseConfig.js";
-import { getPublicAssetUrl, ORG_NAME, showToast, escapeHtml, debounce, getQueryParam, ASSET_STATUSES } from "./utils.js";
+import { getPublicAssetUrl, ORG_NAME, showToast, escapeHtml, debounce, getQueryParam, ASSET_STATUSES, normalizeAssetStatus } from "./utils.js";
 import { addHistoryRecord } from "./history.js";
 import { requireAuth } from "./auth.js";
 import { initLayout, initTopbar } from "./layout.js";
@@ -39,7 +39,8 @@ export async function createAsset(data, user) {
     assetCode,
     category: data.category,
     location: data.location.trim(),
-    status: data.status || "Active",
+    condition: data.condition || "Good",
+    status: data.status || "Operational",
     assignedTechnician: data.assignedTechnician || "",
     lastServiceDate: data.lastServiceDate || null,
     nextServiceDate: data.nextServiceDate || null,
@@ -73,6 +74,7 @@ export async function updateAsset(assetId, data, user) {
     assetCode,
     category: data.category,
     location: data.location?.trim(),
+    condition: data.condition,
     status: data.status,
     assignedTechnician: data.assignedTechnician || "",
     lastServiceDate: data.lastServiceDate || null,
@@ -121,19 +123,24 @@ export function listenAssets(callback) {
   return onSnapshot(collection(db, "assets"), (snap) => {
     const assets = snap.docs.map((d) => {
       const data = d.data();
-      return { id: d.id, ...data, assetCode: data.assetCode || data.code || "" };
+      return { id: d.id, ...data, assetCode: data.assetCode || data.code || "", status: normalizeAssetStatus(data.status) };
     });
     callback(assets);
   });
 }
 
 export function computeAssetMetrics(assets) {
+  const norm = assets.map((a) => ({ ...a, status: normalizeAssetStatus(a.status) }));
   return {
-    total: assets.length,
-    active: assets.filter((a) => a.status === "Active").length,
-    underMaintenance: assets.filter((a) => a.status === "Under Maintenance").length,
-    issueReported: assets.filter((a) => a.status === "Issue Reported").length,
-    retired: assets.filter((a) => a.status === "Retired").length
+    total: norm.length,
+    operational: norm.filter((a) => a.status === "Operational").length,
+    underInspection: norm.filter((a) => a.status === "Under Inspection").length,
+    underMaintenance: norm.filter((a) => a.status === "Under Maintenance").length,
+    issueReported: norm.filter((a) => a.status === "Issue Reported").length,
+    outOfService: norm.filter((a) => a.status === "Out of Service").length,
+    retired: norm.filter((a) => a.status === "Retired").length,
+    // legacy aliases for dashboard
+    active: norm.filter((a) => a.status === "Operational").length
   };
 }
 
@@ -314,7 +321,7 @@ function renderAssetsList(assets) {
 }
 
 export async function initAssetFormPage() {
-  const { profile } = await requireAuth(["admin"]);
+  const { profile } = await requireAuth(["admin", "employee"]);
   currentUser = profile;
   const assetId = getQueryParam("id");
   const isEdit = Boolean(assetId);
@@ -338,7 +345,8 @@ export async function initAssetFormPage() {
     document.getElementById("asset-code").value = asset.assetCode;
     document.getElementById("asset-category").value = asset.category || "";
     document.getElementById("asset-location").value = asset.location;
-    document.getElementById("asset-status").value = asset.status;
+    document.getElementById("asset-status").value = normalizeAssetStatus(asset.status);
+    document.getElementById("asset-condition").value = asset.condition || "Good";
     document.getElementById("asset-technician").value = asset.assignedTechnician || "";
     document.getElementById("last-service").value = asset.lastServiceDate || "";
     document.getElementById("next-service").value = asset.nextServiceDate || "";
@@ -351,6 +359,7 @@ export async function initAssetFormPage() {
       assetCode: document.getElementById("asset-code").value,
       category: document.getElementById("asset-category").value,
       location: document.getElementById("asset-location").value,
+      condition: document.getElementById("asset-condition").value,
       status: document.getElementById("asset-status").value,
       assignedTechnician: document.getElementById("asset-technician").value,
       lastServiceDate: document.getElementById("last-service").value || null,

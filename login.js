@@ -7,7 +7,7 @@ const fullName = document.querySelector('#signup-name');
 const userRole = document.querySelector('#signup-role');
 const signUpEmail = document.querySelector('#signup-email');
 const signUpPass = document.querySelector('#signup-password');
-const signUpBtn = document.querySelector('#signup-btn');
+const signUpBtn = document.querySelector('#signup-submit');
 
 // SignIn Inputs
 const signInEmail = document.querySelector('#signin-email');

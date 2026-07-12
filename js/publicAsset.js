@@ -19,6 +19,7 @@ export function renderPublicAsset(asset, assetId) {
   document.getElementById("asset-location").textContent = asset.location;
   document.getElementById("asset-status").textContent = asset.status;
   document.getElementById("asset-status").className = `status-pill ${asset.status?.replace(/\s/g, "-").toLowerCase()}`;
+  document.getElementById("asset-condition").textContent = asset.condition || "Good";
   document.getElementById("last-service").textContent = formatDate(asset.lastServiceDate);
   document.getElementById("next-service").textContent = formatDate(asset.nextServiceDate);
 

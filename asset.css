@@ -81,3 +81,42 @@ th { background: var(--bg); color: #475569; font-weight: 600; }
 }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 425px) {
+    body {
+        padding: 16px 12px;
+        overflow-x: hidden;
+    }
+
+    .app-container {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .main-grid,
+    .detail-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 620px;
+    }
+
+    * {
+        overflow-wrap: anywhere;
+    }
+}

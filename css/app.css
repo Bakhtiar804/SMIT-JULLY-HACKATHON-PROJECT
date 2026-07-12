@@ -352,6 +352,22 @@ tr:hover td { background: rgba(0,150,136,0.04); }
 .toast-error { background: var(--danger); }
 .toast-warning { background: var(--warning); color: #0f172a; }
 
+.ai-panel { padding: 18px; margin-bottom: 16px; background: rgba(0,150,136,0.08); border: 1px solid rgba(0,150,136,0.25); }
+.ai-panel h3 { font-size: 16px; margin-bottom: 12px; }
+.ai-panel small { color: var(--text-muted); font-weight: 400; }
+.ai-warn { color: var(--danger); font-size: 13px; margin-top: 8px; }
+.ai-hint { color: var(--primary); font-size: 13px; margin-top: 8px; }
+.ai-box { background: rgba(0,150,136,0.06); padding: 12px; border-radius: var(--radius-sm); font-size: 14px; }
+.hint-text { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+.row-critical td { background: rgba(239,68,68,0.06) !important; }
+.critical-card { border-color: var(--danger) !important; }
+.task-desc { color: var(--text-muted); font-size: 14px; margin: 8px 0; }
+.task-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.modal-actions { margin-top: 16px; }
+.task-notes { font-size: 13px; color: var(--text-muted); margin: 8px 0; background: rgba(0,0,0,0.03); padding: 8px; border-radius: 8px; }
+.modal-content h2 { margin-bottom: 16px; font-size: 20px; }
+.modal-content form .form-group { margin-bottom: 14px; }
+
 /* Public pages */
 .public-page {
   min-height: 100vh;
@@ -378,4 +394,213 @@ tr:hover td { background: rgba(0,150,136,0.04); }
   .main-content { margin-left: 0; width: 100%; padding: 16px; }
   .menu-toggle { display: inline-flex; }
   .metrics-grid { grid-template-columns: 1fr 1fr; }
+}
+
+
+
+/* ===================================
+   MOBILE RESPONSIVE (425px)
+=================================== */
+
+@media (max-width:425px){
+
+body,
+html{
+    overflow-x:hidden;
+    max-width:100%;
+}
+
+/* Main */
+
+.main-content{
+    padding:14px;
+}
+
+/* Sidebar */
+
+.sidebar{
+    width:260px;
+}
+
+.sidebar.open{
+    box-shadow:0 0 0 9999px rgba(0,0,0,.45);
+}
+
+/* Topbar */
+
+.topbar{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:18px;
+}
+
+.page-heading h1{
+    font-size:22px;
+}
+
+.page-heading p{
+    font-size:13px;
+}
+
+.topbar-actions{
+    width:100%;
+    justify-content:flex-end;
+}
+
+/* Metrics */
+
+.metrics-grid{
+    grid-template-columns:1fr;
+    gap:14px;
+}
+
+.metric-card{
+    padding:18px;
+}
+
+.metric-card p{
+    font-size:26px;
+}
+
+.metric-icon{
+    font-size:24px;
+}
+
+/* Panels */
+
+.panel{
+    padding:16px;
+}
+
+.panel-header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+}
+
+.panel-header h2{
+    font-size:18px;
+}
+
+/* Grid */
+
+.grid-2,
+.grid-3{
+    grid-template-columns:1fr;
+    gap:16px;
+}
+
+/* Filters */
+
+.filters{
+    flex-direction:column;
+}
+
+.filters .input,
+.filters .select{
+    max-width:100%;
+}
+
+/* Buttons */
+
+.quick-actions{
+    flex-direction:column;
+}
+
+.quick-actions button{
+    width:100%;
+}
+
+/* Table */
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    min-width:650px;
+}
+
+/* Notification */
+
+.notif-dropdown{
+    width:100%;
+    right:auto;
+    left:0;
+}
+
+/* Modal */
+
+.modal{
+    padding:10px;
+}
+
+.modal-content{
+    padding:20px;
+}
+
+/* Detail Grid */
+
+.detail-grid,
+.form-grid,
+.info-grid{
+    grid-template-columns:1fr;
+}
+
+/* Public Card */
+
+.public-card{
+    padding:22px;
+}
+
+.public-header h1{
+    font-size:22px;
+}
+
+/* Print */
+
+.label-main{
+    flex-direction:column;
+    align-items:flex-start;
+}
+
+.label-actions{
+    flex-direction:column;
+}
+
+.label-actions button{
+    width:100%;
+}
+
+/* Action Buttons */
+
+.btn-primary,
+.btn-secondary{
+    width:100%;
+}
+
+/* Toast */
+
+.toast-container{
+    right:12px;
+    left:12px;
+    bottom:12px;
+}
+
+.toast{
+    width:100%;
+}
+
+*{
+    overflow-wrap:anywhere;
+}
+
+.main-content,
+.panel,
+.modal-content,
+.table-wrap{
+    max-width:100%;
+    overflow-x:hidden;
+}
+
 }

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Issue Status | MaintainIQ</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div class="public-page">
+    <div class="public-card glass-card" style="width:min(560px,100%);">
+      <div class="public-header">
+        <h1>Issue Status</h1>
+        <p>Track your reported maintenance issue</p>
+      </div>
+
+      <div class="form-group" id="search-box">
+        <label>Enter Issue Number</label>
+        <div style="display:flex;gap:10px;">
+          <input id="issue-number-input" class="input" placeholder="e.g. MIQ-260711-4521">
+          <button id="search-btn" class="btn-primary" type="button">Track</button>
+        </div>
+      </div>
+
+      <div id="loading" class="loading-state" style="display:none;"><div class="spinner"></div></div>
+      <div id="result" style="display:none;">
+        <div class="info-grid">
+          <div class="info-item"><label>Issue #</label><strong id="r-number">—</strong></div>
+          <div class="info-item"><label>Status</label><span id="r-status" class="status-pill">—</span></div>
+          <div class="info-item"><label>Asset</label><strong id="r-asset">—</strong></div>
+          <div class="info-item"><label>Priority</label><span id="r-priority" class="priority-pill">—</span></div>
+          <div class="info-item full" style="grid-column:1/-1;"><label>Title</label><strong id="r-title">—</strong></div>
+          <div class="info-item"><label>Reported</label><strong id="r-date">—</strong></div>
+          <div class="info-item"><label>Technician</label><strong id="r-tech">—</strong></div>
+        </div>
+        <p id="r-summary" class="ai-box" style="display:none;margin-top:16px;"></p>
+      </div>
+      <div id="error" class="error-state" style="display:none;"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { getIssueByNumber } from './js/complaints.js';
+    import { getQueryParam, formatDateTime } from './js/utils.js';
+
+    async function lookup(num) {
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('result').style.display = 'none';
+      document.getElementById('error').style.display = 'none';
+
+      const issue = await getIssueByNumber(num.trim());
+      document.getElementById('loading').style.display = 'none';
+
+      if (!issue) {
+        document.getElementById('error').style.display = 'block';
+        document.getElementById('error').innerHTML = '<span class="empty-icon">⚠️</span><p>Issue not found. Check your issue number.</p>';
+        return;
+      }
+
+      document.getElementById('result').style.display = 'block';
+      document.getElementById('r-number').textContent = issue.issueNumber;
+      document.getElementById('r-status').textContent = issue.status;
+      document.getElementById('r-status').className = `status-pill ${issue.status.replace(/\s/g,'-').toLowerCase()}`;
+      document.getElementById('r-asset').textContent = issue.assetCode;
+      document.getElementById('r-priority').textContent = issue.priority;
+      document.getElementById('r-priority').className = `priority-pill ${issue.priority.toLowerCase()}`;
+      document.getElementById('r-title').textContent = issue.title;
+      document.getElementById('r-date').textContent = formatDateTime(issue.createdAt);
+      document.getElementById('r-tech').textContent = issue.assignedTechnician || 'Not yet assigned';
+
+      const summary = document.getElementById('r-summary');
+      if (issue.maintenanceSummary && ['Resolved','Closed'].includes(issue.status)) {
+        summary.style.display = 'block';
+        summary.innerHTML = `<strong>Maintenance Summary:</strong> ${issue.maintenanceSummary}`;
+      } else {
+        summary.style.display = 'none';
+      }
+    }
+
+    document.getElementById('search-btn').addEventListener('click', () => {
+      lookup(document.getElementById('issue-number-input').value);
+    });
+
+    const prefill = getQueryParam('issueNumber');
+    if (prefill) {
+      document.getElementById('issue-number-input').value = prefill;
+      lookup(prefill);
+    }
+  </script>
+</body>
+</html>

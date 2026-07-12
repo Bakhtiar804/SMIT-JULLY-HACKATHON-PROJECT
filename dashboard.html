@@ -18,7 +18,7 @@
         </div>
         <div class="topbar-actions">
           <div class="notif-wrap" id="notif-wrap">
-            <button class="notif-btn" type="button" onclick="this.parentElement.classList.toggle('open')">🔔 <span id="notif-badge">0</span></button>
+            <!-- <button class="notif-btn" type="button" onclick="this.parentElement.classList.toggle('open')">🔔 <span id="notif-badge">0</span></button> -->
             <div class="notif-dropdown glass-card" id="notif-list"></div>
           </div>
         </div>
@@ -26,10 +26,11 @@
 
       <section class="metrics-grid">
         <div class="metric-card glass-card"><div><h3>Total Assets</h3><p id="metric-total">0</p></div><span class="metric-icon">📦</span></div>
-        <div class="metric-card glass-card"><div><h3>Active Assets</h3><p id="metric-active">0</p></div><span class="metric-icon">✅</span></div>
+        <div class="metric-card glass-card"><div><h3>Operational</h3><p id="metric-active">0</p></div><span class="metric-icon">✅</span></div>
+        <div class="metric-card glass-card"><div><h3>Under Inspection</h3><p id="metric-inspection">0</p></div><span class="metric-icon">🔍</span></div>
         <div class="metric-card glass-card"><div><h3>Under Maintenance</h3><p id="metric-maintenance">0</p></div><span class="metric-icon">🔧</span></div>
         <div class="metric-card glass-card"><div><h3>Issue Reported</h3><p id="metric-reported">0</p></div><span class="metric-icon">⚠️</span></div>
-        <div class="metric-card glass-card"><div><h3>Retired Assets</h3><p id="metric-retired">0</p></div><span class="metric-icon">🗄️</span></div>
+        <div class="metric-card glass-card"><div><h3>Retired / OOS</h3><p id="metric-retired">0</p></div><span class="metric-icon">🗄️</span></div>
       </section>
 
       <div class="grid-2">
@@ -46,9 +47,9 @@
       <section class="panel glass-card">
         <div class="panel-header"><h2>Quick Actions</h2></div>
         <div class="quick-actions">
-          <button class="btn-primary" data-quick="asset-form.html">+ Create Asset</button>
-          <button class="btn-secondary" data-quick="assets.html">Manage Assets</button>
-          <button class="btn-secondary" data-quick="complaints.html">View Complaints</button>
+          <button class="btn-primary" onclick="window.location.href='asset-form.html'" data-quick="asset-form.html">+ Create Asset</button>
+          <button class="btn-secondary" onclick="window.location.href='assets.html'" data-quick="assets.html">Manage Assets</button>
+          <button class="btn-secondary" onclick="window.location.href='submit-complaint.html'" data-quick="submit-complaint.html">Public Complaint Page</button>
         </div>
       </section>
 
@@ -58,9 +59,11 @@
           <input type="text" id="asset-search" class="input" placeholder="Search by name, code or location...">
           <select id="status-filter" class="select">
             <option value="">All Statuses</option>
-            <option>Active</option>
-            <option>Under Maintenance</option>
+            <option>Operational</option>
             <option>Issue Reported</option>
+            <option>Under Inspection</option>
+            <option>Under Maintenance</option>
+            <option>Out of Service</option>
             <option>Retired</option>
           </select>
         </div>

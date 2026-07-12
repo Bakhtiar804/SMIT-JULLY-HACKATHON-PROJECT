@@ -51,10 +51,11 @@ function updateMetrics(assets) {
   const m = computeAssetMetrics(assets);
   const map = {
     "metric-total": m.total,
-    "metric-active": m.active,
+    "metric-active": m.operational,
+    "metric-inspection": m.underInspection,
     "metric-maintenance": m.underMaintenance,
     "metric-reported": m.issueReported,
-    "metric-retired": m.retired
+    "metric-retired": m.retired + m.outOfService
   };
   Object.entries(map).forEach(([id, val]) => {
     const el = document.getElementById(id);

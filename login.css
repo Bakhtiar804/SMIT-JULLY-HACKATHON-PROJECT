@@ -291,3 +291,152 @@ body{
         margin:auto;
     }
 }
+
+
+/* =====================================
+   MOBILE RESPONSIVE (425px)
+===================================== */
+
+@media (max-width:425px){
+
+body,
+html{
+    overflow-x:hidden;
+    max-width:100%;
+}
+
+.main-wrapper{
+    flex-direction:column;
+}
+
+/* Left Panel */
+
+.left-panel{
+    width:100%;
+    padding:35px 20px;
+    text-align:center;
+}
+
+.left-content{
+    max-width:100%;
+}
+
+.brand-icon{
+    width:65px;
+    height:65px;
+    font-size:28px;
+    margin:0 auto;
+}
+
+.left-content h1{
+    font-size:32px;
+    margin-top:18px;
+}
+
+.tagline{
+    font-size:15px;
+    line-height:1.6;
+    margin-top:10px;
+}
+
+.feature-box{
+    margin-top:25px;
+}
+
+.feature{
+    justify-content:center;
+    font-size:15px;
+    margin-bottom:14px;
+}
+
+.feature i{
+    font-size:16px;
+}
+
+/* Right Panel */
+
+.right-panel{
+    width:100%;
+    padding:20px 15px 30px;
+}
+
+.auth-container{
+    width:100%;
+    padding:25px 18px;
+    border-radius:18px;
+}
+
+/* Header */
+
+.auth-header{
+    margin-bottom:20px;
+}
+
+.auth-header h2{
+    font-size:26px;
+}
+
+.auth-header p{
+    font-size:14px;
+}
+
+/* Form */
+
+.form-group{
+    margin-bottom:16px !important;
+}
+
+.form-group label{
+    font-size:14px;
+}
+
+.form-control,
+.form-select{
+    height:50px;
+    font-size:15px;
+}
+
+.submit-btn{
+    height:50px;
+    font-size:15px;
+}
+
+/* Social Buttons */
+
+.social-btn{
+    height:48px;
+    font-size:14px;
+}
+
+/* Switch */
+
+.switch-form{
+    font-size:14px;
+}
+
+/* Bootstrap */
+
+.row{
+    margin-left:0;
+    margin-right:0;
+}
+
+.col,
+[class*="col-"]{
+    padding-left:0;
+    padding-right:0;
+}
+
+*{
+    overflow-wrap:anywhere;
+}
+
+.main-wrapper,
+.left-panel,
+.right-panel,
+.auth-container{
+    max-width:100%;
+    overflow-x:hidden;
+}
+
+}

@@ -19,6 +19,18 @@ body{
     background:#F8FAFC;
     color:#0F172A;
     overflow-x:hidden;
+    max-width:100%;
+}
+
+html{
+    overflow-x:hidden;
+    max-width:100%;
+}
+
+.container,
+.container-fluid{
+    max-width:100%;
+    width:100%;
 }
 
 a{
@@ -1062,6 +1074,258 @@ font-size:28px;
 
 width:100%;
 
+}
+
+}
+
+
+
+
+
+/* =====================================
+   MOBILE RESPONSIVE (425px)
+===================================== */
+
+@media (max-width:425px){
+
+.container{
+    padding-left:18px;
+    padding-right:18px;
+}
+
+/* Navbar */
+
+.navbar{
+    padding:14px 0;
+}
+
+.navbar-brand{
+    font-size:22px;
+}
+
+.navbar-toggler{
+    padding:6px 10px;
+    border:none;
+    box-shadow:none !important;
+}
+
+.navbar-collapse{
+    margin-top:15px;
+    padding:20px;
+    background:#fff;
+    border-radius:16px;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+}
+
+.navbar-nav{
+    text-align:center;
+}
+
+.nav-link{
+    margin:10px 0;
+}
+
+.navbar .d-flex{
+    flex-direction:column;
+    gap:12px !important;
+    margin-top:18px;
+}
+
+.login-btn,
+.hero-btn{
+    width:100%;
+}
+
+/* Hero */
+
+.hero{
+    padding:110px 0 70px;
+    text-align:center;
+}
+
+.hero-badge{
+    font-size:13px;
+    padding:8px 16px;
+}
+
+.hero h1{
+    font-size:30px;
+    line-height:1.3;
+}
+
+.hero p{
+    font-size:15px;
+    line-height:1.8;
+    margin-bottom:28px;
+}
+
+.hero-buttons{
+    flex-direction:column;
+    gap:15px;
+}
+
+.hero-btn,
+.outline-btn{
+    width:100%;
+    margin:0;
+}
+
+.hero-image{
+    margin-top:40px;
+}
+
+/* Sections */
+
+.stats,
+.features,
+.workflow,
+.dashboard-section,
+.why-us,
+.cta-section{
+    padding:70px 0;
+}
+
+/* Cards */
+
+.stat-card,
+.feature-card,
+.why-card{
+    padding:28px 20px;
+}
+
+.stat-card h2{
+    font-size:36px;
+}
+
+.feature-icon,
+.why-card i{
+    width:70px;
+    height:70px;
+    font-size:28px;
+}
+
+/* Titles */
+
+.section-title{
+    margin-bottom:35px;
+}
+
+.section-title h2{
+    font-size:28px;
+    line-height:1.35;
+}
+
+.section-title p{
+    font-size:15px;
+}
+
+.dashboard-section h2{
+    font-size:28px;
+    line-height:1.35;
+}
+
+.dashboard-section p{
+    font-size:15px;
+}
+
+.dashboard-list li{
+    justify-content:flex-start;
+    align-items:flex-start;
+    text-align:left;
+    font-size:15px;
+}
+
+/* Workflow */
+
+.workflow-wrapper{
+    gap:22px;
+}
+
+.workflow-item{
+    width:100%;
+}
+
+.workflow-icon{
+    width:75px;
+    height:75px;
+    font-size:28px;
+}
+
+.arrow{
+    transform:rotate(90deg);
+}
+
+/* CTA */
+
+.cta-box{
+    padding:45px 20px;
+    border-radius:22px;
+}
+
+.cta-box h2{
+    font-size:26px;
+    line-height:1.4;
+}
+
+.cta-box p{
+    font-size:15px;
+}
+
+/* Footer */
+
+footer{
+    text-align:center;
+}
+
+footer .col-lg-4{
+    margin-bottom:35px;
+}
+
+.social-links{
+    justify-content:center;
+}
+
+footer ul{
+    padding-left:0;
+}
+
+footer li{
+    padding-left:0 !important;
+}
+
+/* Prevent Overflow */
+
+img{
+    max-width:100%;
+    height:auto;
+}
+
+*{
+    word-wrap:break-word;
+    overflow-wrap:anywhere;
+}
+
+body,
+html,
+.container,
+.container-fluid,
+.row{
+    max-width:100%;
+    overflow-x:hidden;
+}
+
+.navbar-collapse,
+.navbar-nav,
+.hero-buttons,
+.dashboard-list,
+.social-links{
+    width:100%;
+}
+
+.hero-btn,
+.outline-btn,
+.login-btn{
+    white-space:normal;
 }
 
 }

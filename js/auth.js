@@ -60,7 +60,7 @@ export function requireAuth(allowedRoles = []) {
         reject(new Error("Unauthorized"));
         return;
       }
-      resolve({ user, profile });
+      resolve({ user, profile: { ...profile, userId: profile.userId || user.uid } });
     });
   });
 }

@@ -17,7 +17,8 @@
           <p id="page-subtitle"></p>
         </div>
         <div class="topbar-actions">
-          <div class="notif-wrap" id="notif-wrap">
+          <span class="btn-secondary">Active Tasks: <strong id="task-count">0</strong></span>
+          <div class="notif-wrap">
             <button class="notif-btn" type="button" onclick="this.parentElement.classList.toggle('open')">🔔 <span id="notif-badge">0</span></button>
             <div class="notif-dropdown glass-card" id="notif-list"></div>
           </div>
@@ -26,14 +27,61 @@
 
       <section class="panel glass-card">
         <div class="panel-header">
-          <h2>My Assigned Tasks</h2>
-          <a href="complaints.html" class="btn-secondary">All Complaints</a>
+          <h2>My Assigned Complaints</h2>
+          <a href="complaints.html" class="btn-secondary">View All Complaints</a>
         </div>
         <div id="tech-tasks">
-          <div class="loading-state"><div class="spinner"></div><p>Loading tasks...</p></div>
+          <div class="loading-state"><div class="spinner"></div><p>Loading assigned tasks from Firebase...</p></div>
         </div>
       </section>
     </main>
+  </div>
+
+  <!-- Note modal -->
+  <div id="note-modal" class="modal">
+    <div class="modal-content glass-card">
+      <button class="modal-close" type="button" data-close="note-modal">&times;</button>
+      <h2>Add Maintenance Note</h2>
+      <form id="note-form">
+        <div class="form-group">
+          <textarea id="note-text" class="input" rows="4" required placeholder="Inspection findings..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary">Save Note</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Resolve modal -->
+  <div id="resolve-modal" class="modal">
+    <div class="modal-content glass-card">
+      <button class="modal-close" type="button" data-close="resolve-modal">&times;</button>
+      <h2>Resolve Issue</h2>
+      <p id="resolve-issue-title" style="margin-bottom:16px;"></p>
+      <form id="resolve-form">
+        <div class="form-group">
+          <label>Maintenance Notes *</label>
+          <textarea id="resolve-notes" class="input" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Parts Replaced</label>
+          <input id="resolve-parts" class="input">
+        </div>
+        <div class="form-group">
+          <label>Cost (PKR)</label>
+          <input id="resolve-cost" type="number" min="0" class="input" value="0">
+        </div>
+        <button type="submit" class="btn-primary success">Resolve Issue</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="summary-modal" class="modal">
+    <div class="modal-content glass-card">
+      <button class="modal-close" type="button" data-close="summary-modal">&times;</button>
+      <h2>✅ Resolved</h2>
+      <div class="ai-box"><p id="summary-text"></p></div>
+      <button type="button" class="btn-primary" data-close="summary-modal" style="margin-top:16px;">Done</button>
+    </div>
   </div>
 
   <script type="module">

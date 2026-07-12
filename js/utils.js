@@ -1,16 +1,72 @@
 export const ORG_NAME = "MaintainIQ";
 
-export const ASSET_STATUSES = ["Active", "Under Maintenance", "Issue Reported", "Retired"];
+/** Official hackathon asset statuses */
+export const ASSET_STATUSES = [
+  "Operational",
+  "Issue Reported",
+  "Under Inspection",
+  "Under Maintenance",
+  "Out of Service",
+  "Retired"
+];
+
+/** Official hackathon issue statuses */
 export const ISSUE_STATUSES = [
   "Reported",
   "Assigned",
   "Inspection Started",
-  "Under Maintenance",
+  "Maintenance In Progress",
+  "Waiting for Parts",
   "Resolved",
   "Closed",
   "Reopened"
 ];
+
 export const PRIORITIES = ["Low", "Medium", "High", "Critical"];
+
+export const ISSUE_CATEGORIES = [
+  "General Maintenance",
+  "Leakage / Performance",
+  "Mechanical / Performance",
+  "Display / Connectivity",
+  "Performance / HVAC",
+  "Electrical / Safety",
+  "Electrical",
+  "Software / IT",
+  "Safety",
+  "Mechanical",
+  "Other"
+];
+
+/** Map legacy statuses to official ones */
+export function normalizeAssetStatus(status) {
+  const map = {
+    Active: "Operational",
+    "Under Maintenance": "Under Maintenance"
+  };
+  return map[status] || status;
+}
+
+export function normalizeIssueStatus(status) {
+  const map = { "Under Maintenance": "Maintenance In Progress" };
+  return map[status] || status;
+}
+
+/** Valid issue status transitions */
+export const ISSUE_TRANSITIONS = {
+  Reported: ["Assigned"],
+  Assigned: ["Inspection Started"],
+  "Inspection Started": ["Maintenance In Progress", "Waiting for Parts"],
+  "Waiting for Parts": ["Maintenance In Progress"],
+  "Maintenance In Progress": ["Resolved", "Waiting for Parts"],
+  Resolved: ["Closed", "Reopened"],
+  Closed: ["Reopened"],
+  Reopened: ["Assigned", "Inspection Started"]
+};
+
+export function canTransition(from, to) {
+  return ISSUE_TRANSITIONS[from]?.includes(to) ?? false;
+}
 
 export function formatDate(value) {
   if (!value) return "—";
@@ -51,28 +107,38 @@ export function getReportIssueUrl(assetId) {
   return `${base}report-issue.html?assetId=${assetId}`;
 }
 
+export function getIssueStatusUrl(issueNumber) {
+  const base = window.location.origin + window.location.pathname.replace(/[^/]+$/, "");
+  return `${base}issue-status.html?issueNumber=${encodeURIComponent(issueNumber)}`;
+}
+
 export function getQueryParam(name) {
   return new URLSearchParams(window.location.search).get(name);
 }
 
 export function statusClass(status) {
+  const s = (status || "").replace(/\s/g, "-").toLowerCase();
   const map = {
-    Active: "status-active",
-    "Under Maintenance": "status-maintenance",
-    "Issue Reported": "status-reported",
-    Retired: "status-retired",
-    Reported: "status-reported",
-    Assigned: "status-assigned",
-    "Inspection Started": "status-inspection",
-    Resolved: "status-resolved",
-    Closed: "status-closed",
-    Reopened: "status-reopened",
-    Low: "priority-low",
-    Medium: "priority-medium",
-    High: "priority-high",
-    Critical: "priority-critical"
+    operational: "status-active",
+    "issue-reported": "status-reported",
+    "under-inspection": "status-inspection",
+    "under-maintenance": "status-maintenance",
+    "out-of-service": "status-retired",
+    retired: "status-retired",
+    reported: "status-reported",
+    assigned: "status-assigned",
+    "inspection-started": "status-inspection",
+    "maintenance-in-progress": "status-maintenance",
+    "waiting-for-parts": "status-inspection",
+    resolved: "status-resolved",
+    closed: "status-closed",
+    reopened: "status-reopened",
+    low: "priority-low",
+    medium: "priority-medium",
+    high: "priority-high",
+    critical: "priority-critical"
   };
-  return map[status] || "status-default";
+  return map[s] || "status-default";
 }
 
 export function showToast(message, type = "success") {
